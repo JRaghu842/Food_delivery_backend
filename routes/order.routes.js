@@ -43,6 +43,8 @@ OrderRoute.post("/api/orders/:id", async (req, res) => {
   }
 });
 
+// delete order functionality need to be added here
+
 module.exports = {
   OrderRoute,
 };
