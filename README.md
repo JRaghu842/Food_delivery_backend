@@ -1,1 +1,8 @@
 # Food_delivery_backend
+
+TECH STACKS USED
+1. JAVASCRIPT
+2. NODEJS
+3. EXPRESSJS
+4. MONGODB 
+   
