@@ -43,7 +43,65 @@ OrderRoute.post("/api/orders/:id", async (req, res) => {
   }
 });
 
-// delete order functionality need to be added here
+// read orders functionality
+
+OrderRoute.get("/api/orders", async (req, res) => {
+  try {
+    const orders = await OrderModel.find()
+      .populate("user", "name email")
+      .populate("restaurant", "name");
+
+    res.json(orders);
+  } catch (error) {
+    console.log(error);
+  }
+});
+
+
+// edit orders functionality
+
+OrderRoute.put("/api/orders/:id", async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { items, totalPrice, deliveryAddress } = req.body;
+
+    const order = await OrderModel.findByIdAndUpdate(
+      id,
+      { items, totalPrice, deliveryAddress },
+      { new: true }
+    )
+      .populate("user", "name email")
+      .populate("restaurant", "name");
+
+    if (!order) {
+      return res.status(404).json({ message: "Unable to find the order" });
+    }
+
+    res.json(order);
+  } catch (error) {
+    console.log(error);
+  }
+});
+
+
+// delete order functionality
+
+OrderRoute.delete("/api/orders/:id", async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const order = await OrderModel.findByIdAndRemove(id);
+
+    if (!order) {
+      return res.status(404).json({ message: "Unable to find the order" });
+    }
+
+    res.json({ message: "Order has been deleted successfully" });
+  } catch (error) {
+    console.log(error);
+  }
+});
+
 
 module.exports = {
   OrderRoute,
